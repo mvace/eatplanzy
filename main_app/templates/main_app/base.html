@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        /* Add custom styles here */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #22A6B3;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #34495E;
+            color: #fff;
+            padding: 10px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #fff;
+            color: #333;
+        }
+        footer {
+            background-color: #34495E;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+        {% block abc %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} Your Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>
