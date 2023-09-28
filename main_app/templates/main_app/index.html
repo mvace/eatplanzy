@@ -1,7 +1,5 @@
-<!-- recipe_list.html -->
 {% extends 'main_app/base.html' %}
 {% load static %}
-
 {% block title %}Recipe List{% endblock %}
 
 {% block content %}
@@ -11,11 +9,11 @@
         {% for recipe in recipes %}
             <div class="col-md-3">
                 <div class="card mb-3">
-                    <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}">
+                    <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.png' %}'">
                     <div class="card-body">
                         <h5 class="card-title" >{{ recipe.name }}</h5>
                         <p class="card-text">{{ recipe.description }}</p>
-                        <a href="#" class="btn btn-primary">View Recipe</a>
+                        <a href="{% url 'recipe:recipe' recipe.id %}" class="btn btn-primary">View Recipe</a>
                     </div>
                 </div>
             </div>
@@ -25,4 +23,7 @@
         {% endfor %}
     </div>
 </div>
+
+
+
 {% endblock %}

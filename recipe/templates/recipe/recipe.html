@@ -1,0 +1,52 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block title %}{{ recipe.name|title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 mb-3" >
+            <h5>{{ recipe.name|title }}</h5>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.png' %}'">
+                <div class="card-body">
+                    <h5 class="card-title">Ingredients:</h5>
+                    <ul>
+                        {% for ingredient in recipe.ingredients %}
+                        <li>{{ ingredient }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if recipe.nutrients %}
+                        <h5 class="card-title">Nutrition per 100g:</h5>
+                        <ul>
+                            {% for nutrition, value in recipe.nutrients.items %}
+                                <li>{{ nutrition }} - {{ value }}<br></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Instructions:</h5>
+                <ul>
+                {% for steps in recipe.steps %}
+                   <li> {{ steps }} </li>
+                {% endfor %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+{% endblock %}

@@ -14,7 +14,7 @@ def index(request):
     )
 
     # Get 5 random IDs
-    random_recipe_ids = random.sample(recipe_ids, 12)
+    random_recipe_ids = random.sample(recipe_ids, 120)
 
     # Fetch the Recipe objects with the selected random IDs
     random_recipes = Recipe.objects.filter(id__in=random_recipe_ids)

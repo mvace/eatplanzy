@@ -3,4 +3,6 @@ from . import views
 
 app_name = "recipe"
 
-urlpatterns = []
+urlpatterns = [
+    path("recipe/<str:pk>/", views.recipe, name="recipe"),
+]
