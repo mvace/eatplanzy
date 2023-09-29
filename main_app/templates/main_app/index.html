@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="container">
+    
     <h1>Recipe List</h1>
     <div class="row">
         {% for recipe in recipes %}
@@ -13,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title" >{{ recipe.name }}</h5>
                         <p class="card-text">{{ recipe.description }}</p>
-                        <a href="{% url 'recipe:recipe' recipe.id %}" class="btn btn-primary">View Recipe</a>
+                        <a href="{% url 'recipe:recipe' recipe.name_slug %}" class="btn btn-primary">View Recipe</a>
                     </div>
                 </div>
             </div>
