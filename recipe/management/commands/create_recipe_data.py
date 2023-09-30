@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "Populate the database with recipe data from a JSON file"
 
     def handle(self, *args, **options):
-        file_path = r"C:\Users\marek\dev\EatPlanzy\DataSet\BBC recipes\recipes.json"  # Replace with the actual JSON file path
+        file_path = r"C:\Users\marek\dev\EatPlanzy\DataSet\BBC recipes\budget.json"  # Replace with the actual JSON file path
 
         with open(file_path, "r") as json_file:
             recipes_data = json.load(json_file)

@@ -1,11 +1,11 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
-{% block title %}Recipe List{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 <div class="container">
     
-    <h1>Recipe List</h1>
+    <h3>We have {{ count }} recipes for you in this category:</h3>
     <div class="row">
         {% for recipe in recipes %}
             <div class="col-md-3">

@@ -1,72 +1,30 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EatPlanzy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <style>
-        /* Add custom styles here */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #22A6B3;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background-color: #34495E;
-            color: #fff;
-            padding: 10px;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        main {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #fff;
-            color: #333;
-        }
-        footer {
-            background-color: #34495E;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about/">About</a></li>
-                <li><a href="/contact/">Contact</a></li>
-            </ul>
-        </nav>
-        
-    </header>
+    <script src="https://kit.fontawesome.com/a2401b919c.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    {% include "main_app/navbar.html" %}
 
-    <main>
-        {% block content %}{% endblock %}
-        {% block abc %}{% endblock %}
-    </main>
+    <br/>
+    <div class="container">
+        <br/>
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-    <footer>
-        <p>&copy; {% now "Y" %} Your Website. All rights reserved.</p>
-    </footer>
-</body>
+          {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
 </html>
