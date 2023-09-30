@@ -3,6 +3,7 @@
 {% block title %}{{ recipe.name|title }}{% endblock %}
 
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-md-9 mb-3" >
@@ -22,8 +23,11 @@
                         <li>{{ ingredient }}</li>
                         {% endfor %}
                     </ul>
+                    {% if recipe.serves %}
+                        <h5>Portions: {{ recipe.serves }}</h5>
+                    {% endif %}
                     {% if recipe.nutrients %}
-                        <h5 class="card-title">Nutrition per 100g:</h5>
+                        <h5 class="card-title">Nutrition per portion:</h5>
                         <ul>
                             {% for nutrition, value in recipe.nutrients.items %}
                                 <li>{{ nutrition }} - {{ value }}<br></li>
@@ -43,6 +47,16 @@
                    <li> {{ steps }} </li>
                 {% endfor %}
                 </ul>
+                <h5 class="card-title">Tags:</h5>
+                <a href="{% url 'recipe:category' recipe.maincategory_slug %}"><button type="button" class="btn btn-outline-info">{{ recipe.maincategory|title }}</button></a>
+                <a href="{% url 'recipe:category' recipe.subcategory_slug %}"><button type="button" class="btn btn-outline-info">{{ recipe.subcategory }}</button></a>
+                <a href="{% url 'recipe:category' recipe.dish_type_slug %}"><button type="button" class="btn btn-outline-info">{{ recipe.dish_type }}</button></a>
+                <br><br>
+                <h5 class="card-title">Share the recipe:</h5>
+                <a href="#" onclick="window.print(); return false;"><i class="fa-solid fa-print"></i></a>&nbsp;
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000{% url 'recipe:recipe' recipe.name_slug %}" target="_blank" rel="noopener"><i class="fab fa-facebook-square"></i></a>&nbsp;
+                <a href="mailto:?subject=Check%20out%20this%20page&body=I%20thought%20you%20might%20find%20this%20interesting:%0D%0A%0D%0Ahttp://127.0.0.1:8000{% url 'recipe:recipe' recipe.name_slug %}"><i class="fa-solid fa-envelope"></i></a>&nbsp;
+                  
             </div>
             </div>
         </div>
