@@ -1,0 +1,18 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+<div class="col-md-6 offset-md-3">
+    <h1>Login</h1>
+    <br>
+    <form method="POST">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <br>
+       <button type="submit" class="btn btn-secondary">Login</button>
+    </form>
+</div>
+{% else %}
+<p>You're logged in. Would you like to <a href="{% url 'users:logout_user' %}">logout</a>?</p>
+{% endif %}
+{% endblock %}
