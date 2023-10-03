@@ -35,9 +35,12 @@
           <a class="nav-link" href="{% url 'users:register' %}">Register</a>
         </li>
         {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="#">{{ user }}</a>
-        </li>
+          {% if user.userprofile %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:profile_view' request.user.userprofile.user_id %}">{{ user }}</a>
+          </li>
+          {% endif %}
+
         {% endif %}
         {% if not user.is_authenticated %}
         <li class="nav-item">

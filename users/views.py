@@ -1,11 +1,53 @@
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, UserProfileForm, UpdateUserForm
+from .models import UserProfile
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect
 
 
 # Create your views here.
+
+
+def profile_view(request, pk):
+    profile = UserProfile.objects.get(user_id=pk)
+    return render(request, "users/profile.html", {"profile": profile})
+
+
+@login_required
+def update_profile(request):
+    current_user = User.objects.get(id=request.user.id)
+    user_profile = UserProfile.objects.get(user_id=request.user.userprofile.user_id)
+    print(f"User: {current_user}, Profile: {user_profile}")
+
+    profile_form = UserProfileForm(
+        request.POST or None, request.FILES or None, instance=user_profile
+    )
+    user_form = UpdateUserForm(
+        request.POST or None, request.FILES or None, instance=current_user
+    )
+
+    if request.method == "POST":
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, ("Your Profile Has Been Updated."))
+            return redirect(request.META.get("HTTP_REFERER"))
+        else:
+            messages.error(request, "There was an error in the form submission.")
+
+    else:
+        profile_form = UserProfileForm(instance=user_profile)
+
+    return render(
+        request,
+        "users/update_profile.html",
+        {"profile_form": profile_form, "user_form": user_form},
+    )
+
+
 def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)

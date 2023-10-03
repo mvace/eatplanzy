@@ -1,0 +1,56 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-3">
+    {% if profile %}
+    <!-- First Card -->
+    <div class="card">
+        {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
+        {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.user.username }}</h5>
+        {% if profile.bio %}
+        <p class="card-text">Bio: {{ profile.bio }}</p>
+        {% endif %}
+        <a href="#" class="btn btn-primary">Contact {{ profile.user.username }}</a>
+        <br><br>
+        {% if request.user.id == profile.user_id %}
+        <a href="{% url 'users:update_profile' %}" class="btn btn-primary">Update Profile</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="col-md-9">
+    <!-- Second Card -->
+    <div class="card">
+      <div class="container">
+        <h5>{{ user.username|title }}'s Favourite Recipes:</h5>
+        <div class="row">
+        {% if profile.favorite_recipes %}
+          {% for recipe in profile.favorite_recipes.all %}
+          <div class="col-md-3">
+            <div class="card mb-3">
+              <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.gif' %}'">
+              <div class="card-body">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                <p class="card-text">{{ recipe.description }}</p>
+                <a href="{% url 'recipe:recipe' recipe.name_slug %}" class="btn btn-primary">View Recipe</a>
+              </div>
+            </div>
+          </div>
+        
+          {% if forloop.counter|divisibleby:4 and not forloop.last %}
+          </div><div class="row">
+          {% endif %}
+          {% endfor %}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
