@@ -10,8 +10,6 @@
      {% if profile_form.instance.profile_picture %}
         <img src="{{ profile_form.instance.profile_picture.url }}" alt="Current Profile Picture" style="max-width: 200px; max-height: 200px;">
     {% endif %}
-    {{ profile_form.instance.profile_picture.clear_label_tag }}
-    {{ profile_form.instance.profile_picture.input }}
     
     <!-- Display the rest of the form fields -->
     {{ profile_form.as_p }}
