@@ -4,12 +4,38 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from users.models import UserProfile
 from django.contrib import messages
+from .forms import CommentForm
+from .models import Comment
 
 
 # Create your views here.
+
+
 def recipe(request, slug):
-    recipe = Recipe.objects.get(name_slug=slug)
-    return render(request, "recipe/recipe.html", {"recipe": recipe})
+    recipe = get_object_or_404(Recipe, name_slug=slug)
+    if request.user.is_authenticated:
+        form = CommentForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.recipe = recipe
+                comment.save()
+                messages.success(request, ("Your Comment Has Been Posted"))
+                redirect(request.META.get("HTTP_REFERER"))
+
+        comments = Comment.objects.filter(recipe=recipe)
+        print(comments)
+        return render(
+            request,
+            "recipe/recipe.html",
+            {"recipe": recipe, "form": form, "comments": comments},
+        )
+    else:
+        comments = Comment.objects.filter(recipe=recipe)
+        return render(
+            request, "recipe/recipe.html", {"recipe": recipe, "comments": comments}
+        )
 
 
 def category(request, category):

@@ -3,6 +3,16 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 
 
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey("Recipe", on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username}"
+
+
 class Recipe(models.Model):
     id = models.UUIDField(primary_key=True)
     url = models.URLField()
@@ -25,6 +35,13 @@ class Recipe(models.Model):
     subcategory_slug = models.SlugField(max_length=100, blank=True)
     name_slug = models.SlugField(max_length=255, blank=True)
     dish_type_slug = models.SlugField(max_length=100, blank=True)
+    comments = models.ForeignKey(
+        Comment,
+        related_name="recipe_comments",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return self.name
@@ -36,13 +53,3 @@ class Recipe(models.Model):
         self.name_slug = slugify(self.name)
         self.dish_type_slug = slugify(self.dish_type)
         super().save(*args, **kwargs)
-
-
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Comment by {self.user.username} on {self.recipe.name}"
