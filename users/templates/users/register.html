@@ -5,9 +5,35 @@
 <div class="col-md-6 offset-md-3">
     <h1>Register</h1>
     <br>
+    {% if form.errors %}
+    <div class="alert alert-warning">
+        <h4>Error(s) occurred:</h4>
+        <ul>
+            {% for field_name, field_errors in form.errors.items %}
+                {% for error in field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <form method=POST action="">
        {% csrf_token %}
-       {{ form.as_p }}
+       {% for error in form.username.errors %}
+           <p class="alert alert-danger">{{ error }}</p>
+       {% endfor %}
+       {{ form.username }}
+       <p class="form-text text-muted small">{{ form.username.help_text }}</p>
+       {{ form.email }}
+       <br>       
+       {{ form.password1 }}
+       <ul>
+       {% for line in form.password1.help_text %}
+       <li><p class="form-text text-muted small">{{ line }}</p></li>
+       {% endfor %}
+       </ul>
+       {{ form.password2 }}
+       <p class="form-text text-muted small">{{ form.password2.help_text }}</p>
        <br>
        <button type="submit" class="btn btn-secondary">Register</button>
     </form>
