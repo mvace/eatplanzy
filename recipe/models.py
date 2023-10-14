@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+import uuid
 
 
 class Comment(models.Model):
@@ -14,20 +15,21 @@ class Comment(models.Model):
 
 
 class Recipe(models.Model):
-    id = models.UUIDField(primary_key=True)
-    url = models.URLField()
-    image = models.URLField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    chef = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.URLField(null=True, blank=True)
+    uploaded_image = models.ImageField(
+        upload_to="images/recipe_images", null=True, blank=True
+    )
     name = models.CharField(max_length=255)
     description = models.TextField()
-    author = models.CharField(max_length=255)
-    rattings = models.PositiveIntegerField()
+    rattings = models.PositiveIntegerField(null=True, blank=True)
     ingredients = models.JSONField()
     steps = models.JSONField()
-    nutrients = models.JSONField()
-    times = models.JSONField()
+    nutrients = models.JSONField(null=True, blank=True)
+    times = models.JSONField(default=dict)
     serves = models.PositiveIntegerField()
-    difficult = models.CharField(max_length=255)
-    vote_count = models.PositiveIntegerField()
+    difficult = models.CharField(max_length=255, null=True, blank=True)
     subcategory = models.CharField(max_length=255)
     dish_type = models.CharField(max_length=255)
     maincategory = models.CharField(max_length=255)

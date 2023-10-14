@@ -7,7 +7,7 @@ from recipe.models import Recipe
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(
-        upload_to="images/", blank=True, null=True
+        upload_to="images/profile_pic", blank=True, null=True
     )  # check if this works, check the static file settings
     name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
