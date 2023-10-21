@@ -107,6 +107,13 @@ class AddRecipeForm(forms.ModelForm):
         self.generate_choice_field("maincategory", "Main Category")
         self.generate_choice_field("subcategory", "Sub Category")
 
+        if self.instance.ingredients:
+            self.initial["ingredients"] = "\n".join(self.instance.ingredients)
+        if self.instance.steps:
+            self.initial["steps"] = "\n".join(self.instance.steps)
+        if self.instance.nutrients:
+            self.initial["nutrients"] = "\n".join(self.instance.nutrients)
+
     def generate_choice_field(self, field_name, label):
         # Get the distinct values for the field from the Recipe model
         field_choices = Recipe.objects.values_list(field_name, flat=True).distinct()

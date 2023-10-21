@@ -15,13 +15,18 @@ class Comment(models.Model):
 
 
 class Recipe(models.Model):
+    def generate_slugified_filename(instance, filename):
+        original_filename, file_extension = filename.split(".")
+        slugified_filename = slugify(original_filename)
+        return f"images/recipe_images/{slugified_filename}.{file_extension}"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     chef = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.URLField(null=True, blank=True)
     uploaded_image = models.ImageField(
-        upload_to="images/recipe_images", null=True, blank=True
+        upload_to=generate_slugified_filename, null=True, blank=True
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     rattings = models.PositiveIntegerField(null=True, blank=True)
     ingredients = models.JSONField()

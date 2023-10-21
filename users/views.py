@@ -5,6 +5,7 @@ from .forms import (
     CustomAuthenticationForm,
 )
 from .models import UserProfile
+from recipe.models import Recipe
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -17,7 +18,13 @@ from django.shortcuts import render, redirect
 
 def profile_view(request, pk):
     profile = UserProfile.objects.get(user_id=pk)
-    return render(request, "users/profile.html", {"profile": profile})
+    profile_recipes = Recipe.objects.filter(chef_id=pk)
+    print(profile_recipes)
+    return render(
+        request,
+        "users/profile.html",
+        {"profile": profile, "profile_recipes": profile_recipes},
+    )
 
 
 @login_required

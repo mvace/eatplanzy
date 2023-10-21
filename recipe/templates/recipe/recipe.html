@@ -17,6 +17,13 @@
             <div class="card">
                 <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.gif' %}'">
                 <div class="card-body">
+                    {% if user.is_authenticated %}
+                    {% if request.user.id == recipe.chef_id %}
+                    <a href="{% url 'recipe:delete_recipe' recipe.name_slug %}"><i class="fa-solid fa-trash fa-lg"></i></a>&nbsp;&nbsp;
+                    <a href="{% url 'recipe:update_recipe' recipe.name_slug %}"><i class="fas fa-edit fa-lg"></i></a>
+
+                    {% endif %}
+                    {% endif %}
                     <h5 class="card-title">Ingredients:</h5>
                     <ul>
                         {% for ingredient in recipe.ingredients %}

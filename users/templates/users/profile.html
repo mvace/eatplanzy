@@ -30,6 +30,33 @@
     <!-- Second Card -->
     <div class="card">
       <div class="container">
+        <h5>{{ user.username|title }}'s Recipes:</h5>
+        <div class="row">
+        {% if profile_recipes %}
+          {% for recipe in profile_recipes.all %}
+          <div class="col-md-3">
+            <div class="card mb-3">
+              <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.gif' %}'">
+              <div class="card-body">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                <p class="card-text">{{ recipe.description }}</p>
+                <a href="{% url 'recipe:recipe' recipe.name_slug %}" class="btn btn-primary">View Recipe</a>
+              </div>
+            </div>
+          </div>
+        
+          {% if forloop.counter|divisibleby:4 and not forloop.last %}
+          </div><div class="row">
+          {% endif %}
+          {% endfor %}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+    <br>
+    <!-- Third Card -->
+    <div class="card">
+      <div class="container">
         <h5>{{ user.username|title }}'s Favourite Recipes:</h5>
         <div class="row">
         {% if profile.favorite_recipes %}
@@ -55,4 +82,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

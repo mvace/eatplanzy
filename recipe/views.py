@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from recipe.models import Recipe
+from django.urls import reverse
 from django.http import Http404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from users.models import UserProfile
 from django.contrib import messages
 from .forms import CommentForm, AddRecipeForm
 from .models import Comment
+from django.utils.text import slugify
 
 
 # Create your views here.
@@ -80,21 +82,22 @@ def remove_favorite(request, slug):
 
 @login_required
 def add_recipe(request):
-    form = AddRecipeForm(request.POST or request.FILES)
     if request.method == "POST":
+        form = AddRecipeForm(request.POST or request.FILES)
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.ingredients = form.cleaned_data["ingredients"].split("\n")
             recipe.steps = form.cleaned_data["steps"].split("\n")
             recipe.nutrients = form.cleaned_data["nutrients"].split("\n")
-            recipe.user = request.user
+            recipe.chef = request.user
             recipe.times = {}
             if "uploaded_image" in request.FILES:
-                recipe.uploaded_image = request.FILES["uploaded_image"]
+                uploaded_image = request.FILES["uploaded_image"]
+                recipe.uploaded_image = uploaded_image
+                recipe.save()
                 current_site = get_current_site(request)
-                img_url = f"http://{current_site}/media/images/recipe_images/{recipe.uploaded_image}"
+                img_url = f"http://{current_site}/media/{recipe.uploaded_image}"
                 recipe.image = img_url
-
             recipe.save()
 
             messages.success(request, ("Your Recipe Has Been Added"))
@@ -102,8 +105,49 @@ def add_recipe(request):
         else:
             print(form.errors)
     else:
+        form = AddRecipeForm()
         return render(request, "recipe/add_recipe.html", {"form": form})
 
-    # else:
-    #     messages.success(request, ("You Must Be Logged In To View That Page..."))
-    #     return redirect("users:login_user")
+
+@login_required
+def update_recipe(request, slug):
+    recipe = Recipe.objects.get(name_slug=slug)
+    if recipe.chef_id == request.user.id:
+        if request.method == "POST":
+            form = AddRecipeForm(request.POST or request.FILES, instance=recipe)
+            if form.is_valid():
+                recipe = form.save(commit=False)
+                recipe.ingredients = form.cleaned_data["ingredients"].split("\n")
+                recipe.steps = form.cleaned_data["steps"].split("\n")
+                recipe.nutrients = form.cleaned_data["nutrients"].split("\n")
+                recipe.chef = request.user
+
+                if "uploaded_image" in request.FILES:
+                    recipe.uploaded_image = request.FILES["uploaded_image"]
+                    current_site = get_current_site(request)
+                    img_url = f"http://{current_site}/media/images/recipe_images/{recipe.uploaded_image}"
+                    recipe.image = img_url
+                else:
+                    recipe.image = None
+
+                recipe.save()
+
+                messages.success(request, "Recipe updated successfully")
+                return redirect(
+                    reverse("recipe:recipe", kwargs={"slug": recipe.name_slug})
+                )
+
+        else:
+            form = AddRecipeForm(instance=recipe)
+
+        return render(request, "recipe/update_recipe.html", {"form": form})
+    else:
+        messages.success(request, "You do not have a permission to edit this recipe")
+        return redirect("main_app:index")
+
+
+def delete_recipe(request, slug):
+    recipe = Recipe.objects.get(name_slug=slug)
+    recipe.delete()
+    messages.success(request, ("You've deleted the recipe."))
+    return redirect("main_app:index")
