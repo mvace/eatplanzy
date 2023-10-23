@@ -40,7 +40,15 @@
               <div class="card-body">
                 <h5 class="card-title">{{ recipe.name }}</h5>
                 <p class="card-text">{{ recipe.description }}</p>
+                {% if user.is_authenticated %}
+                {% if request.user.id == recipe.chef_id %}
+                <a href="{% url 'recipe:delete_recipe' recipe.name_slug %}"><i class="fa-solid fa-trash"></i></a>&nbsp;&nbsp;
+                <a href="{% url 'recipe:update_recipe' recipe.name_slug %}"><i class="fas fa-edit"></i></a>
+                <br>
+                {% endif %}
+                {% endif %}
                 <a href="{% url 'recipe:recipe' recipe.name_slug %}" class="btn btn-primary">View Recipe</a>
+
               </div>
             </div>
           </div>

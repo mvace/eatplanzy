@@ -28,7 +28,6 @@ def recipe(request, slug):
                 redirect(request.META.get("HTTP_REFERER"))
 
         comments = Comment.objects.filter(recipe=recipe)
-        print(comments)
         return render(
             request,
             "recipe/recipe.html",
@@ -39,6 +38,13 @@ def recipe(request, slug):
         return render(
             request, "recipe/recipe.html", {"recipe": recipe, "comments": comments}
         )
+
+
+def remove_comment(request, pk):
+    comment = Comment.objects.get(id=pk)
+    comment.delete()
+    messages.success(request, ("Your Comment Has Been Deleted"))
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 def category(request, category):
