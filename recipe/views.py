@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from recipe.models import Recipe
+from django.http import JsonResponse
+from recipe.models import Recipe, Comment, CommentLike
 from django.urls import reverse
 from django.http import Http404
 from django.contrib.sites.shortcuts import get_current_site
@@ -38,6 +39,20 @@ def recipe(request, slug):
         return render(
             request, "recipe/recipe.html", {"recipe": recipe, "comments": comments}
         )
+
+
+def comment_like(request, pk):
+    user = request.user
+    comment = get_object_or_404(Comment, id=pk)
+
+    if CommentLike.objects.filter(user=user, comment=comment).exists():
+        like = CommentLike.objects.get(user=user, comment=comment)
+        like.delete()
+    else:
+        like = CommentLike(user=user, comment=comment)
+        like.save()
+
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 def remove_comment(request, pk):

@@ -13,6 +13,17 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.user.username}"
 
+    def get_like_count(self):
+        return CommentLike.objects.filter(comment=self).count()
+
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "comment"]
+
 
 class Recipe(models.Model):
     def generate_slugified_filename(instance, filename):
