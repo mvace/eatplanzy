@@ -3,6 +3,7 @@ from .forms import (
     UserProfileForm,
     UpdateUserForm,
     CustomAuthenticationForm,
+    MessageForm,
 )
 from .models import UserProfile
 from recipe.models import Recipe
@@ -11,15 +12,62 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from .models import Conversation, Message
+from django.db.models import Q
 
 
 # Create your views here.
 
 
+@login_required
+def conversation(request, pk):
+    sender = User.objects.get(id=request.user.id)
+    receiver = User.objects.get(id=pk)
+
+    conversation = (
+        Conversation.objects.filter(participants=sender)
+        .filter(participants=receiver)
+        .first()
+    )
+
+    form = MessageForm()
+    if pk == request.user.id:
+        messages.error(request, "You cannot message yourself.")
+        return redirect(request.META.get("HTTP_REFERER"))
+
+    if conversation is not None:
+        communication = Message.objects.filter(conversation=conversation)
+        if request.method == "POST":
+            form = MessageForm(request.POST)
+            if form.is_valid():
+                message = form.save(commit=False)
+                message.conversation = conversation
+                message.sender = sender
+                message.receiver = receiver
+                message.save()
+                form = MessageForm()
+            else:
+                form = MessageForm()
+
+    else:
+        new_conversation = Conversation.objects.create()
+        new_conversation.participants.add(sender, receiver)
+
+        communication = []  # Initialize an empty list for communication
+        form = MessageForm()
+
+    context = {
+        "conversation": conversation,
+        "communication": communication,
+        "form": form,
+    }
+
+    return render(request, "users/conversation.html", context)
+
+
 def profile_view(request, pk):
     profile = UserProfile.objects.get(user_id=pk)
     profile_recipes = Recipe.objects.filter(chef_id=pk)
-    print(profile_recipes)
     return render(
         request,
         "users/profile.html",
@@ -31,8 +79,6 @@ def profile_view(request, pk):
 def update_profile(request):
     current_user = User.objects.get(id=request.user.id)
     user_profile = UserProfile.objects.get(user_id=request.user.userprofile.user_id)
-    print(f"User: {current_user}, Profile: {user_profile}")
-
     profile_form = UserProfileForm(
         request.POST or None, request.FILES or None, instance=user_profile
     )

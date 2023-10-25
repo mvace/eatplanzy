@@ -5,7 +5,24 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
 )
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, Message
+
+
+class MessageForm(forms.ModelForm):
+    content = forms.CharField(
+        max_length=1000,
+        label="",
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Type your message...",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Message
+        fields = ["content"]
 
 
 class CustomAuthenticationForm(AuthenticationForm):

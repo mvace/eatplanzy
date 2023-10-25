@@ -17,7 +17,7 @@
         {% if profile.bio %}
         <p class="card-text">Bio: {{ profile.bio }}</p>
         {% endif %}
-        <a href="#" class="btn btn-primary">Contact {{ profile.user.username }}</a>
+        <a href="{% url 'users:conversation' profile.user_id %}" class="btn btn-primary">Contact {{ profile.user.username }}</a>
         <br><br>
         {% if request.user.id == profile.user_id %}
         <a href="{% url 'users:update_profile' %}" class="btn btn-primary">Update Profile</a>

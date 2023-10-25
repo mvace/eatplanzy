@@ -1,0 +1,48 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="col-md-8 col-lg-6 col-xl-8">
+    <!-- Display the conversation details here -->
+    <h1>Conversation with {{ conversation.participants.all|join:", " }}</h1>
+    <!-- Add your code to display messages, conversation details, etc. -->
+  
+    {% for message in communication %}
+        {% if message.sender_id == request.user.id %}
+        <div class="d-flex flex-row justify-content-end mb-4">
+            <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #0a7cff; color: white; overflow-wrap: break-word; max-width: 50%;">
+              <p class="small mb-0" >{{ message.content }}</p>
+            </div>
+            {% if message.sender.userprofile.profile_picture %}
+                <img src="{{ message.sender.userprofile.profile_picture.url }}" class="rounded-circle shadow-1-strong me-3" alt="avatar 1" style="width: 45px; height: 45px;">
+            {% else %}
+                <img src="{% static 'images/default_user_image.png' %}" class="rounded-circle shadow-1-strong me-3" alt="avatar 1" style="width: 45px; height: 45px;">
+            {% endif %}
+        </div>
+        
+        {% else %}
+
+        <div class="d-flex flex-row justify-content-start mb-4">
+            {% if message.sender.userprofile.profile_picture %}
+                <img src="{{ message.sender.userprofile.profile_picture.url }}" class="rounded-circle shadow-1-strong me-3" alt="avatar 1" style="width: 45px; height: 45px;">
+            {% else %}
+                <img src="{% static 'images/default_user_image.png' %}" class="rounded-circle shadow-1-strong me-3" alt="avatar 1" style="width: 45px; height: 45px;">
+            {% endif %}
+            <div class="p-3 ms-3" style="border-radius: 15px; background-color: #f0f0f0; overflow-wrap: break-word; max-width: 50%;">
+            <p class="small mb-0">{{ message.content }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+    {% endfor %}
+
+
+    <!-- Message Form -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Send</button>
+
+    </form>
+</div>
+
+{% endblock %}

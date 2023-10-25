@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-3 mb-3">
             <div class="card">
-                <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.gif' %}'">
+                <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.png' %}'">
                 <div class="card-body">
                     {% if user.is_authenticated %}
                     {% if request.user.id == recipe.chef_id %}
