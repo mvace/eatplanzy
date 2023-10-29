@@ -13,10 +13,26 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Conversation, Message
-from django.db.models import Q
+from django.db.models import Q, OuterRef, Subquery, Max, TextField
 
 
-# Create your views here.
+@login_required
+def inbox(request):
+    user = request.user  # Assuming you have a logged-in user
+    print(request.user)
+    # Get the last message for each conversation that includes the specific user
+    last_messages = (
+        Message.objects.filter(conversation__participants=user)
+        .values("conversation")
+        .annotate(last_message_id=Max("id"))
+    )
+
+    # Fetch the full last messages
+    last_messages = Message.objects.filter(
+        id__in=last_messages.values("last_message_id")
+    )
+
+    return render(request, "users/inbox.html", {"last_messages": last_messages})
 
 
 @login_required

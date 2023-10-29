@@ -1,7 +1,7 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
 {% block content %}
-<div class="col-md-8 col-lg-6 col-xl-8">
+<div class="container" style="width: 80%">
     <!-- Display the conversation details here -->
     <h1>Conversation with {{ conversation.participants.all|join:", " }}</h1>
     <!-- Add your code to display messages, conversation details, etc. -->

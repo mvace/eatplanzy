@@ -53,8 +53,10 @@
           }
         </script>
         <li>
+          <a href="{% url 'users:inbox' %}"><button type="button" class="btn btn-outline-danger">Inbox</button></a>
+        </li>&nbsp;
+        <li>
           <a href="{% url 'recipe:add_recipe' %}"><button type="button" class="btn btn-success">Add Recipe</button></a>
-
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'users:logout_user' %}" onclick="return confirmAction();">Logout</a>
