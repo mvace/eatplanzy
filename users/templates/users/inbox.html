@@ -52,16 +52,17 @@
                         src="{% static 'images/default_user_image.png' %}" alt="avatar" width="65"
                         height="65" />
                     {% endif %}
-                    <a href="{% url 'main_app:index' %}">
                     <div class="card w-100" style="background-color: #f0f0f0;">
+                        <a href="{% url 'users:conversation' message.sender.id %}" style="text-decoration: none; color: inherit;">
                         <div class="card-body p-2">
                             <div class="col-10">
-                                <h5><a href="{% url 'users:profile_view' message.receiver.id %}" class="text-decoration-none text-reset">{{ message.sender }}</a></h5>
+                                <h5>{{ message.sender }}</h5>
                             </div>
                             <p>{{ message.content|slice:":120" }}{% if message.content|length > 120 %}...{% endif %}</p>
                             <p class="small">{{ message.timestamp|date:"d/m" }} at {{ message.timestamp|date:"H:i" }}</p>
                         
                         </div>
+                        </a>
                     </div>
                     </a>
                 </div>

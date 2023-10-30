@@ -10,9 +10,30 @@ from django.contrib import messages
 from .forms import CommentForm, AddRecipeForm
 from .models import Comment
 from django.utils.text import slugify
+from django.db.models import Q
 
 
 # Create your views here.
+def search(request):
+    if request.method == "POST":
+        search = f" {request.POST['search']} "
+        print(type(search))
+        results = Recipe.objects.filter(
+            Q(ingredients__icontains=search)
+            | Q(steps__icontains=search)
+            | Q(name__icontains=search)
+            | Q(description__icontains=search)
+            | Q(subcategory__icontains=search)
+            | Q(maincategory__icontains=search)
+            | Q(dish_type__icontains=search)
+        )
+        print(results)
+
+        return render(
+            request, "recipe/search.html", {"results": results, "search": search}
+        )
+    else:
+        return render(request, "recipe/search.html", {})
 
 
 def recipe(request, slug):

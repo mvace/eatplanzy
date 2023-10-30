@@ -1,13 +1,26 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
+
 {% block title %}{% endblock %}
 
+<h1>Search Recipes!</h1>
 {% block content %}
+<form method=POST>
+    {% csrf_token %}
+    <input type="input" class="form-control" placeholder="Search Recipes" name="search">
+    <br>
+    <button type="submit" class="btn btn-secondary">Search Recipe</button>
+</form>
+<br>
+
+{% if search %}
+    <h3>You Searched For: {{ search }}</h3>
+{% endif %}
+{% if results %}
 <div class="container">
-    
-    <h3>We have {{ count }} recipes for you in this category:</h3>
+    <h3>We have found {{ results.count }} recipes for you.</h3>
     <div class="row">
-        {% for recipe in recipes %}
+        {% for recipe in results %}
             <div class="col-md-3">
                 <div class="card mb-3">
                     <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.png' %}'">
@@ -21,10 +34,12 @@
             {% if forloop.counter|divisibleby:4 and not forloop.last %}
                 </div><div class="row">
             {% endif %}
+
         {% endfor %}
     </div>
 </div>
-
-
+{% else %}
+<h3>No results</h3>
+{% endif %}
 
 {% endblock %}
