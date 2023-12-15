@@ -6,11 +6,7 @@
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit" class="btn btn-secondary">Add Recipe</button>
+    <button type="submit" class="btn btn-secondary mb-3">Add Recipe</button>
 </form>
 
-{% if search %}
-    {% for recipe in results %}
-
-{% endif %}
 {% endblock %}

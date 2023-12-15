@@ -13,7 +13,7 @@
 </div>
 <div class="container" style="width: 80%">
     <div class="row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card">
                 <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.name }}" onerror="this.src='{% static 'images/default_recipe_image.png' %}'">
                 <div class="card-body">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-8 mb-3">
             <div class="card">
             <div class="card-body">
                 <h5 class="card-title">About this recipe:</h5>
@@ -123,7 +123,6 @@
                         <div class="d-flex align-items-center">
                           <a href="{% url 'recipe:comment_like' comment.id %}" class="text-decoration-none link-muted me-2"><i class="fas fa-thumbs-up me-1"></i>{{ comment.get_like_count }}</a>
                         </div>
-                        <a href="#!" class="text-decoration-none link-muted"><i class="fas fa-reply me-1"></i> Reply</a>
                       </div>
                     </div>
                   </div>
