@@ -10,54 +10,54 @@ The app was build with a goal to practice Python, Django and Object Oriented Pro
 
 ## Key Features
 - Recipe Showcase:
-    Every user has access to a diverse collection of recipes sourced from the BBC dataset.
+ Every user has access to a diverse collection of recipes sourced from the BBC dataset.
 
 - User Authentication:
-    Users can create accounts to unlock personalized features and interactions.
+ Users can create accounts to unlock personalized features and interactions.
 
 - Profile Management:
-    Once registered, users can customize their profiles, providing a glimpse into their culinary preferences and expertise.
+ Once registered, users can customize their profiles, providing a glimpse into their culinary preferences and expertise.
 
 - Recipe Creation:
-    Account holders have the ability to add their own recipes, contributing to the growing community of food enthusiasts.
+ Account holders have the ability to add their own recipes, contributing to the growing community of food enthusiasts.
 
 - Interactivity:
-    Users can engage with recipes by liking, commenting, and adding them to their favorites.
+ Users can engage with recipes by liking, commenting, and adding them to their favorites.
 
 - Social Connection:
-    Connect with other users through messaging, creating a network of like-minded individuals passionate about food.
+ Connect with other users through messaging, creating a network of like-minded individuals passionate about food.
 
 - Recipe Editing:
-    Recipe creators can easily edit and update their recipes to share new insights or improvements.
+ Recipe creators can easily edit and update their recipes to share new insights or improvements.
 
 ## How It Works
 - Recipe Exploration:
-    All users can freely explore the extensive collection of recipes available on EatPlanzy.
+ All users can freely explore the extensive collection of recipes available on EatPlanzy.
 
 - Account Creation:
-    Users can create accounts to unlock additional features and personalize their experience.
+ Users can create accounts to unlock additional features and personalize their experience.
 
 - Recipe Interaction:
-    Account holders can like, comment, and add recipes to their favorites, fostering a sense of community engagement.
+ Account holders can like, comment, and add recipes to their favorites, fostering a sense of community engagement.
 
 - Recipe Contribution:
-    Registered users have the privilege to contribute by adding their own recipes to the platform.
+ Registered users have the privilege to contribute by adding their own recipes to the platform.
 
 - Profile Enhancement:
-    Users can update their profiles to showcase their culinary expertise and preferences.
+ Users can update their profiles to showcase their culinary expertise and preferences.
 
 - Social Connectivity:
-    Messaging functionality allows users to connect with each other, share tips, and build a network within the community.
+ Messaging functionality allows users to connect with each other, share tips, and build a network within the community.
 
 ## Why EatPlanzy?
 - Community Building:
-    EatPlanzy provides a vibrant space for food enthusiasts to connect, share, and inspire each other.
+ EatPlanzy provides a vibrant space for food enthusiasts to connect, share, and inspire each other.
 
 - Personalization:
-    Account features enhance the user experience, allowing individuals to tailor the platform to their unique culinary interests.
+ Account features enhance the user experience, allowing individuals to tailor the platform to their unique culinary interests.
 
 - Continuous Improvement:
-    Recipe creators can iterate on their creations, providing an evolving and dynamic repository of culinary inspiration.
+ Recipe creators can iterate on their creations, providing an evolving and dynamic repository of culinary inspiration.
 
 EatPlanzy is the go-to platform for individuals passionate about food, fostering a community of culinary exploration and creativity.
 ## Installation
