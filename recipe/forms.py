@@ -50,7 +50,7 @@ class AddRecipeForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 "class": "form-control",
-                "placeholder": "Enter each ingredient on a separate line.",
+                "placeholder": "Enter each step on a separate line.",
                 "rows": "4",
             }
         ),

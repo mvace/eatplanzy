@@ -34,7 +34,7 @@
     <!-- Second Card -->
     <div class="card">
       <div class="container">
-        <h5>{{ user.username|title }}'s Recipes:</h5>
+        <h5>{{ profile.user.username|title }}'s Recipes:</h5>
         <div class="row">
         {% if profile_recipes %}
           {% for recipe in profile_recipes.all %}
@@ -69,7 +69,7 @@
     <!-- Third Card -->
     <div class="card">
       <div class="container">
-        <h5>{{ user.username|title }}'s Favourite Recipes:</h5>
+        <h5>{{ profile.user.username|title }}'s Favourite Recipes:</h5>
         <div class="row">
         {% if profile.favorite_recipes %}
           {% for recipe in profile.favorite_recipes.all %}
