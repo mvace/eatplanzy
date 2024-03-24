@@ -63,17 +63,21 @@ def recipe(request, slug):
 
 
 def comment_like(request, pk):
-    user = request.user
-    comment = get_object_or_404(Comment, id=pk)
+    if request.user.is_authenticated:
+        user = request.user
+        comment = get_object_or_404(Comment, id=pk)
 
-    if CommentLike.objects.filter(user=user, comment=comment).exists():
-        like = CommentLike.objects.get(user=user, comment=comment)
-        like.delete()
+        if CommentLike.objects.filter(user=user, comment=comment).exists():
+            like = CommentLike.objects.get(user=user, comment=comment)
+            like.delete()
+        else:
+            like = CommentLike(user=user, comment=comment)
+            like.save()
+
+        return redirect(request.META.get("HTTP_REFERER"))
     else:
-        like = CommentLike(user=user, comment=comment)
-        like.save()
-
-    return redirect(request.META.get("HTTP_REFERER"))
+        messages.success(request, ("You have to be logged in."))
+        return redirect(request.META.get("HTTP_REFERER"))
 
 
 def remove_comment(request, pk):
