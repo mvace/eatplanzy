@@ -3,7 +3,7 @@
 
 This Django project is a website that showcases recipes sourced from the BBC dataset. It serves as a platform for users to explore and share their favorite recipes. As a part of my learning journey, I've incorporated features such as user authentication, profile management, recipe creation, liking, and commenting. Users can also connect with each other through messaging.
 
-The app was build with a goal to practice Python, Django and Object Oriented Programming. The main focus was on the backend part. I realize that the code can be cleaner and more efficient but I am still a beginner and I build these projects to improved and get better.
+The app was build with a goal to practice Python, Django and Object Oriented Programming. The main focus was on the backend part. I realize that the code can be cleaner and more efficient but I am still a beginner and I build these projects to improve and get better.
 
 
 
