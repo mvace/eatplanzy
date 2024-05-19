@@ -14,4 +14,6 @@ urlpatterns = [
     path("remove_comment/<int:pk>/", views.remove_comment, name="remove_comment"),
     path("comment/like/<int:pk>/", views.comment_like, name="comment_like"),
     path("search/", views.search, name="search"),
+    path("api/recipe/", views.recipe_list),
+    path("api/recipe/<slug:slug>", views.recipe_detail),
 ]
