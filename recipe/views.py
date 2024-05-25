@@ -15,55 +15,48 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from recipe.serializers import RecipeSerializer
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
 
 
-class RecipeList(APIView):
+class RecipeList(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+):
     """
     List all recipes, or create a new recipe.
     """
 
-    def get(self, request, format=None):
-        recipes = Recipe.objects.all()
-        serializer = RecipeSerializer(recipes, many=True)
-        return Response(serializer.data)
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
 
-    def post(self, request, format=None):
-        serializer = RecipeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-class RecipeDetail(APIView):
+class RecipeDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
     """
     Retrieve, update or delete a snippet instance.
     """
 
-    def get_object(self, slug):
-        try:
-            return Recipe.objects.get(name_slug=slug)
-        except Recipe.DoesNotExist:
-            raise Http404
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
 
-    def get(self, request, slug, format=None):
-        recipe = self.get_object(slug)
-        serializer = RecipeSerializer(recipe)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, slug, format=None):
-        recipe = self.get_object(slug)
-        serializer = RecipeSerializer(recipe, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, slug, format=None):
-        recipe = self.get_object(slug)
-        recipe.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 def search(request):
