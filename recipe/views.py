@@ -48,6 +48,7 @@ class RecipeDetail(
 
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    lookup_field = "name_slug"
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

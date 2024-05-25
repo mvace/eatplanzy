@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from rest_framework.urlpatterns import format_suffix_patterns
 
 app_name = "recipe"
 
@@ -15,5 +16,7 @@ urlpatterns = [
     path("comment/like/<int:pk>/", views.comment_like, name="comment_like"),
     path("search/", views.search, name="search"),
     path("api/recipe/", views.RecipeList.as_view()),
-    path("api/recipe/<slug:slug>", views.RecipeDetail.as_view()),
+    path("api/recipe/<slug:name_slug>/", views.RecipeDetail.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
