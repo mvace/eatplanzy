@@ -1,27 +1,29 @@
+# Standard library imports
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse, HttpResponse
-from recipe.models import Recipe, Comment, CommentLike
 from django.urls import reverse
-from django.http import Http404
-from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.decorators import login_required
-from users.models import UserProfile
-from django.contrib import messages
-from .forms import CommentForm, AddRecipeForm
-from .models import Comment
 from django.utils.text import slugify
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+
+# Django imports
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+# Third-party imports
 from rest_framework.parsers import JSONParser
-from recipe.serializers import RecipeSerializer
 from rest_framework.response import Response
-from rest_framework import mixins
 from rest_framework import generics
 
+# Local application imports
+from recipe.models import Recipe, Comment, CommentLike
+from users.models import UserProfile
+from .forms import CommentForm, AddRecipeForm
+from recipe.serializers import RecipeSerializer
 
-class RecipeList(
-    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
-):
+
+class RecipeList(generics.ListCreateAPIView):
     """
     List all recipes, or create a new recipe.
     """
@@ -29,19 +31,8 @@ class RecipeList(
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class RecipeDetail(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    generics.GenericAPIView,
-):
+class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a snippet instance.
     """
@@ -49,15 +40,6 @@ class RecipeDetail(
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     lookup_field = "name_slug"
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 def search(request):
