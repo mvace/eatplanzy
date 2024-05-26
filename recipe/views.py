@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Third-party imports
 from rest_framework.parsers import JSONParser
@@ -34,7 +35,7 @@ class RecipeList(generics.ListCreateAPIView):
 
 class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve, update or delete a snippet instance.
+    Retrieve, update or delete a recipe instance.
     """
 
     queryset = Recipe.objects.all()
