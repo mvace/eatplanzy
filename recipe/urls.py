@@ -15,8 +15,13 @@ urlpatterns = [
     path("remove_comment/<int:pk>/", views.remove_comment, name="remove_comment"),
     path("comment/like/<int:pk>/", views.comment_like, name="comment_like"),
     path("search/", views.search, name="search"),
-    path("api/recipe/", views.RecipeList.as_view()),
-    path("api/recipe/<slug:name_slug>/", views.RecipeDetail.as_view()),
+    path("api/", views.api_root),
+    path("api/recipe/", views.RecipeList.as_view(), name="recipe-list"),
+    path(
+        "api/recipe/<slug:name_slug>/",
+        views.RecipeDetail.as_view(),
+        name="recipe-detail",
+    ),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

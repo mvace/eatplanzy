@@ -15,13 +15,25 @@ from django.contrib.auth.models import User
 # Third-party imports
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, renderers
+from rest_framework.reverse import reverse
+from rest_framework.decorators import api_view
+
 
 # Local application imports
 from recipe.models import Recipe, Comment, CommentLike
 from users.models import UserProfile
 from .forms import CommentForm, AddRecipeForm
-from recipe.serializers import RecipeSerializer
+from recipe.serializers import RecipeListSerializer, RecipeDetailSerializer
+
+
+@api_view(["GET"])
+def api_root(request, format=None):
+    return Response(
+        {
+            "recipes": reverse("recipe:recipe-list", request=request, format=format),
+        }
+    )
 
 
 class RecipeList(generics.ListCreateAPIView):
@@ -30,7 +42,7 @@ class RecipeList(generics.ListCreateAPIView):
     """
 
     queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
+    serializer_class = RecipeListSerializer
 
 
 class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -39,7 +51,7 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     """
 
     queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
+    serializer_class = RecipeDetailSerializer
     lookup_field = "name_slug"
 
 

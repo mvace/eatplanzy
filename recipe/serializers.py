@@ -1,9 +1,22 @@
 from rest_framework import serializers
 from recipe.models import Recipe
-from django.contrib.auth.models import User
 
 
-class RecipeSerializer(serializers.ModelSerializer):
+class RecipeListSerializer(serializers.ModelSerializer):
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="recipe:recipe-detail", lookup_field="name_slug"
+    )
+
+    class Meta:
+        model = Recipe
+        fields = [
+            "url",
+            "name",
+        ]
+
+
+class RecipeDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
