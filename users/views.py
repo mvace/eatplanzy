@@ -14,19 +14,6 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Conversation, Message
 from django.db.models import Q, OuterRef, Subquery, Max, TextField
-from rest_framework import generics
-from .serializers import UserProfileSerializer
-
-
-class UserProfileList(generics.ListAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-
-
-class UserProfileDetail(generics.RetrieveAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    lookup_field = "user"
 
 
 @login_required

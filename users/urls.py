@@ -32,6 +32,4 @@ urlpatterns = [
         ),
         name="password_change_done",
     ),
-    path("api/user/", views.UserProfileList.as_view(), name="user-list"),
-    path("api/user/<int:user>", views.UserProfileDetail.as_view(), name="user-detail"),
 ]

@@ -13,6 +13,17 @@ class RecipeListSerializer(serializers.ModelSerializer):
         fields = [
             "url",
             "name",
+            "chef",
+            "image",
+            "description",
+            "ingredients",
+            "steps",
+            "nutrients",
+            "times",
+            "serves",
+            "subcategory",
+            "dish_type",
+            "maincategory",
         ]
 
 

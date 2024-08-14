@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import generics, renderers
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 
@@ -25,6 +26,7 @@ from recipe.models import Recipe, Comment, CommentLike
 from users.models import UserProfile
 from .forms import CommentForm, AddRecipeForm
 from recipe.serializers import RecipeListSerializer, RecipeDetailSerializer
+from recipe.permissions import IsOwnerOrReadOnly
 
 
 @api_view(["GET"])
@@ -53,6 +55,7 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeDetailSerializer
     lookup_field = "name_slug"
+    permission_classes = [IsOwnerOrReadOnly]
 
 
 def search(request):
