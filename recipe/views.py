@@ -60,21 +60,25 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 def search(request):
     if request.method == "POST":
-        search = f" {request.POST['search']} "
-        print(type(search))
-        results = Recipe.objects.filter(
-            Q(ingredients__icontains=search)
-            | Q(steps__icontains=search)
-            | Q(name__icontains=search)
-            | Q(description__icontains=search)
-            | Q(subcategory__icontains=search)
-            | Q(maincategory__icontains=search)
-            | Q(dish_type__icontains=search)
-        )
-        print(results)
+        search_input = request.POST["search"].strip()
+        keywords = search_input.split()
+        query = Q()
+        for keyword in keywords:
+            keyword_query = (
+                Q(ingredients__icontains=keyword)
+                | Q(steps__icontains=keyword)
+                | Q(name__icontains=keyword)
+                | Q(description__icontains=keyword)
+                | Q(subcategory__icontains=keyword)
+                | Q(maincategory__icontains=keyword)
+                | Q(dish_type__icontains=keyword)
+            )
+            query &= keyword_query
+
+        results = Recipe.objects.filter(query).distinct()
 
         return render(
-            request, "recipe/search.html", {"results": results, "search": search}
+            request, "recipe/search.html", {"results": results, "search": search_input}
         )
     else:
         return render(request, "recipe/search.html", {})
