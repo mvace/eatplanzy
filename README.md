@@ -37,6 +37,13 @@ The app was build with a goal to practice Python, Django and Object Oriented Pro
 
     Recipe creators can easily edit and update their recipes to share new insights or improvements.
 
+- API Access:
+
+    The platform provides a RESTful API, allowing users to interact programmatically with the recipes. Users can retrieve the list of all recipes, view detailed information about a specific recipe, and manage (create, update, delete) their own recipes.
+
+
+    
+
 ## How It Works
 - Recipe Exploration:
 
@@ -62,20 +69,11 @@ The app was build with a goal to practice Python, Django and Object Oriented Pro
 
     Messaging functionality allows users to connect with each other, share tips, and build a network within the community.
 
-## Why EatPlanzy?
-- Community Building:
+- API Usage:
 
-    EatPlanzy provides a vibrant space for food enthusiasts to connect, share, and inspire each other.
+    Developers can access the EatPlanzy API to programmatically interact with recipes. The API supports operations like fetching all recipes, getting details of a specific recipe, and managing (create, update, delete) recipes that they own.
 
-- Personalization:
 
-    Account features enhance the user experience, allowing individuals to tailor the platform to their unique culinary interests.
-
-- Continuous Improvement:
-
-    Recipe creators can iterate on their creations, providing an evolving and dynamic repository of culinary inspiration.
-
-EatPlanzy is the go-to platform for individuals passionate about food, fostering a community of culinary exploration and creativity.
 ## Installation
 
 To run the project locally, follow these steps:
