@@ -36,7 +36,7 @@ class Recipe(models.Model):
     chef = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.URLField(null=True, blank=True)
     uploaded_image = models.ImageField(
-        upload_to=generate_slugified_filename, null=True, blank=True
+        upload_to=generate_slugified_filename, blank=True
     )
 
     description = models.TextField()
